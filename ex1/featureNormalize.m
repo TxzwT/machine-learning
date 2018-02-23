@@ -29,9 +29,9 @@ sigma = zeros(1, size(X, 2));
 
 
 
-
-
-
+mu = sum(X)/(size(X)(1));
+X_norm = X-ones(size(X)(1),1)*mu;
+sigma = sqrt(sum((X-ones(size(X)(1),1)*mu).^2)/(size(X)(1)-1));
 
 
 % ============================================================
