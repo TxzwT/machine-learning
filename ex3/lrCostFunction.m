@@ -46,7 +46,16 @@ grad = zeros(size(theta));
 
 
 % =============================================================
+h = 1./(1+e.^(-X*theta));
+J = -(y'*log(h)+(1-y)'*log(1-h))/m;
+for i=2:length(theta)
+  J = J + (theta(i)^2)*lambda/(2*m);
+end
 
+%lambda*(sum(theta.^2))/(2*m)
 grad = grad(:);
-
+grad = X'*(h-y)./m;
+for i=2:length(theta)
+  grad(i) = grad(i)+lambda*theta(i)/m;
+end
 end
