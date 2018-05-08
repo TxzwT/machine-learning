@@ -24,10 +24,16 @@ grad = zeros(size(theta));
 %  tmp = -log(1+e^(X(i,:)*theta));
 %  J += -tmp;
 %end
-h = 1./(e.^(-(X*theta))+1)-y;
+h = 1./(e.^(-(X*theta))+1);
 J = -(y'*log(h)+(1-y)'*log(1-h))/length(X);
 grad = X'*(1./(e.^(-(X*theta))+1)-y)/(length(X));
 
+%for i=1:length(X)
+%  for j=1:length(grad)
+%    grad(j) += (1/(1+e^-(X(i,:)*theta))-y(i))*X(i,:)(j);
+%  end
+%end
+%grad = grad/length(X);
 
 
 
