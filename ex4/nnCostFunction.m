@@ -30,6 +30,9 @@ J = 0;
 Theta1_grad = zeros(size(Theta1));
 Theta2_grad = zeros(size(Theta2));
 
+
+
+
 % ====================== YOUR CODE HERE ======================
 % Instructions: You should complete the code by working through the
 %               following parts.
@@ -63,10 +66,18 @@ Theta2_grad = zeros(size(Theta2));
 %
 
 
+#bias
+X = [X,ones(m,1)];
+z1 = X*Theta1';
+a1 = sigmoid(z1);
+
+X2 = [a1,ones(m,1)];
+z2 = X2*Theta2';
+a2 = sigmoid(z2);
 
 
 
-
+deta2 = 
 
 
 
