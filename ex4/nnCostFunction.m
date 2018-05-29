@@ -64,7 +64,10 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-
+ys = zeros(5000,10);
+for i = 1:m
+  ys(i,y(i))=1;
+end
 
 #bias
 X = [X,ones(m,1)];
@@ -75,10 +78,12 @@ X2 = [a1,ones(m,1)];
 z2 = X2*Theta2';
 a2 = sigmoid(z2);
 
+for i = 1:m
+  for j=1:num_labels
+    J = J + (-ys(i,j)*log(a2(i,j))-(1-ys(i,j))*log(1-a2(i,j)));
 
 
-deta2 = 
-
+J = J/m;
 
 
 
