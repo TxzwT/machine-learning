@@ -37,12 +37,12 @@ m = size(X, 1);
 
 % Randomly select 100 data points to display
 sel = randperm(size(X, 1));
-sel = sel(1:100);
+sel = sel(1:10);
 
 #displayData(X(sel, :));
 
 fprintf('Program paused. Press enter to continue.\n');
-%pause;
+#pause;
 
 
 %% ================ Part 2: Loading Parameters ================
