@@ -78,21 +78,30 @@ z2 = X2*Theta2';
 a2 = sigmoid(z2);
 
 for i = 1:m
-  sum = 0;
+  s = 0;
   for j=1:num_labels
-    sum = sum + (-ys(i,j)*log(a2(i,j))-(1-ys(i,j))*log(1-a2(i,j)));
+    s += ((-ys(i,j)*log(a2(i,j))-(1-ys(i,j))*log(1-a2(i,j))));
   end
-  sum;
-  J = J+sum;
+  J += s;
 end
-J = J/m;
-J
-#287629
+J += lambda * (sum(sum(Theta1 .^ 2))+sum(sum(Theta2 .^ 2)))/2;
+J /= m;
 
-
-
-
-
+deta1 = zeros(1,size(Theta1,2));
+deta2 = zeros(1,size(Theta2,2));
+deta3 = zeros(1,10);
+tic
+for i=1:m
+  deta3 = -(ys(i,:)-a2(i,:)) .* (a2(i,:) .* (1 - a2(i,:)));
+  deta2 = deta3*Theta2 .* (X2(i,:) .* (1 - X2(i,:)));
+  for i=1:size(Theta1,1)
+    Theta1_grad(i,:) .+= Theta1(i,:)*deta2(i+1);
+  end
+  Theta2_grad .+= Theta2 .* deta3';
+end
+toc
+Theta2_grad = Theta2_grad ./ m;
+Theta1_grad = Theta1_grad ./ m;
 
 % -------------------------------------------------------------
 
