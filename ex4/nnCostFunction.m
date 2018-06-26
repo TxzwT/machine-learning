@@ -64,7 +64,7 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
-ys = zeros(5000,10);
+ys = zeros(m,num_labels);
 for i = 1:m
   ys(i,y(i)) = 1;
 end
@@ -84,25 +84,48 @@ for i = 1:m
   end
   J += s;
 end
-J += lambda * (sum(sum(Theta1 .^ 2))+sum(sum(Theta2 .^ 2)))/2;
-J /= m;
+%J += lambda * (sum(sum(Theta1 .^ 2))+sum(sum(Theta2 .^ 2)))/2;
 
-deta1 = zeros(1,size(Theta1,2));
-deta2 = zeros(1,size(Theta2,2));
-deta3 = zeros(1,10);
-tic
-for i=1:m
-  deta3 = -(ys(i,:)-a2(i,:)) .* (a2(i,:) .* (1 - a2(i,:)));
-  deta2 = deta3*Theta2 .* (X2(i,:) .* (1 - X2(i,:)));
-  for i=1:size(Theta1,1)
-    Theta1_grad(i,:) .+= Theta1(i,:)*deta2(i+1);
+for i=1:size(Theta1,1)
+  for j=1:size(Theta1,2)
+    if j != 1
+      J += lambda * (Theta1(i,j) ^ 2)/2;
+    end
   end
-  Theta2_grad .+= Theta2 .* deta3';
 end
-toc
+for i=1:size(Theta2,1)
+  for j=1:size(Theta2,2)
+    if j != 1
+      J += lambda * (Theta2(i,j) ^ 2)/2;
+    end
+  end
+end
+J /= m;
+%tic
+for i=1:m
+  #delta3 = -(ys(i,:)-a2(i,:)) .* (a2(i,:) .* (1 - a2(i,:)));
+  delta3 = -(ys(i,:)-a2(i,:));
+  delta2 = delta3*Theta2 .* ((X2(i,:) .* (1 - X2(i,:))));
+  Theta1_grad += delta2(2:size(delta2,2))' * X(i,:);
+  Theta2_grad += delta3' * X2(i,:);
+end
+%toc
+for i=1:size(Theta1_grad,1)
+  for j=1:size(Theta1_grad,2)
+    if j != 1
+      Theta1_grad(i,j) += lambda * Theta1(i,j);
+    end
+  end
+end
+for i=1:size(Theta2_grad,1)
+  for j=1:size(Theta2_grad,2)
+    if j != 1
+      Theta2_grad(i,j) += lambda * Theta2(i,j);
+    end
+  end
+end
 Theta2_grad = Theta2_grad ./ m;
 Theta1_grad = Theta1_grad ./ m;
-
 % -------------------------------------------------------------
 
 % =========================================================================
