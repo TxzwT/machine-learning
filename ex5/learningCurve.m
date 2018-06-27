@@ -53,12 +53,25 @@ error_val   = zeros(m, 1);
 
 % ---------------------- Sample Solution ----------------------
 
-
-
-
-
-
-
+cross_X = X(ceil(0.6*m):(ceil(0.6*m)+floor(0.2*m)-1),:);
+cross_y = y(ceil(0.6*m):(ceil(0.6*m)+floor(0.2*m)-1));
+for i=1:m
+  sub_X = X(1:i,:);
+  sub_y = y(1:i,:);
+  %cross_size = round(0.4*i);
+  theta = trainLinearReg(sub_X,sub_y,lambda);
+  error_train(i) = sum(((sub_X*theta-sub_y).^2)/(2*i));
+  error_val(i) = sum(((X*theta-y).^2)/(2*i));
+  %error_train(i) = sum(((X*theta-y).^2)/(2*m));
+  %if (i - train_size) == 0
+  %  error_val(i) = 0
+  %else 
+  %  error_val(i) = sum(((sub_X(train_size+1:i,:)*theta-sub_y(train_size+1:i,:)).^2)/(2*(i-train_size)));
+  %end
+end
+  
+  
+  
 % -------------------------------------------------------------
 
 % =========================================================================
